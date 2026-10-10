@@ -137,10 +137,12 @@ function resize() {
   board3d.hidden = !is3d()
   ui.resetView.hidden = !is3d()
   ui.aoLabel.hidden = !is3d()
-  if (is3d()) return r3d.resize()
+  // Pure mode: the board takes the whole window; both renderers fit it inside.
+  const pure = isPure()
+  if (is3d()) return pure ? r3d.resize(innerWidth, innerHeight) : r3d.resize()
   const dpr = window.devicePixelRatio || 1
-  const w = canvas.parentElement.clientWidth
-  const h = Math.round(w / BOARD_ASPECT)
+  const w = pure ? innerWidth : canvas.parentElement.clientWidth
+  const h = pure ? innerHeight : Math.round(w / BOARD_ASPECT)
   canvas.style.height = h + 'px'
   canvas.width = Math.round(w * dpr)
   canvas.height = Math.round(h * dpr)
@@ -190,6 +192,37 @@ ui.play.addEventListener('click', () => {
   // In clock mode this replays a choreography and lands back on the current time.
   start(makePlan(text, ui.choreo.value === 'random' ? randomKey() : ui.choreo.value))
 })
+
+// Pure mode hides everything but the board. The exit and fullscreen buttons
+// fade in while the pointer moves; Esc also leaves.
+const isPure = () => document.body.classList.contains('pure')
+let idleTimer = 0
+
+function setPure(on) {
+  document.body.classList.toggle('pure', on)
+  if (!on && document.fullscreenElement) document.exitFullscreen()
+  wake()
+  resize()
+}
+
+function wake() {
+  document.body.classList.add('awake')
+  clearTimeout(idleTimer)
+  idleTimer = setTimeout(() => document.body.classList.remove('awake'), 2500)
+}
+
+$('#pure').addEventListener('click', () => setPure(true))
+$('#exit-pure').addEventListener('click', () => setPure(false))
+$('#fullscreen').addEventListener('click', () => {
+  if (document.fullscreenElement) document.exitFullscreen()
+  else document.documentElement.requestFullscreen?.()
+})
+window.addEventListener('pointermove', () => isPure() && wake())
+window.addEventListener('pointerdown', () => isPure() && wake())
+window.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && isPure() && !document.fullscreenElement) setPure(false)
+})
+if (new URLSearchParams(location.search).has('pure')) document.body.classList.add('pure')
 
 ui.view.addEventListener('change', resize)
 ui.resetView.addEventListener('click', () => r3d.resetView())

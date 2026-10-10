@@ -253,9 +253,7 @@ export function createRenderer3D(container) {
     applyBackground()
   }
 
-  function resize() {
-    const w = container.clientWidth
-    const h = Math.round(w / VIEW_ASPECT)
+  function resize(w = container.clientWidth, h = Math.round(w / VIEW_ASPECT)) {
     renderer.setSize(w, h)
     composer.setPixelRatio(renderer.getPixelRatio())
     composer.setSize(w, h)

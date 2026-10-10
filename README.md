@@ -8,6 +8,8 @@ This is the web version. Live demo: https://jtydhr88.github.io/openClockClock24/
 
 License: MIT.
 
+"纯净模式" (pure mode) shows only the clock; Esc leaves it. Add `?pure` to the URL to start in it, handy for a wall display.
+
 ## Run
 
 ```bash

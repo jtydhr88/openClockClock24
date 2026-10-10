@@ -110,6 +110,55 @@ button {
   font-weight: 600;
 }
 
+/* Pure mode: only the board, filling the window. */
+.pure-bar {
+  display: none;
+}
+
+body.pure {
+  overflow: hidden;
+}
+
+body.pure main {
+  max-width: none;
+  padding: 0;
+}
+
+body.pure h1,
+body.pure .status,
+body.pure .controls {
+  display: none;
+}
+
+body.pure .stage {
+  position: fixed;
+  inset: 0;
+}
+
+body.pure .pure-bar {
+  display: flex;
+  gap: 8px;
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s;
+}
+
+body.pure.awake .pure-bar {
+  opacity: 0.9;
+  pointer-events: auto;
+}
+
+body.pure:not(.awake) {
+  cursor: none;
+}
+
+body.pure:not(.awake) #board3d canvas {
+  cursor: none;
+}
+
 output {
   min-width: 3em;
   font-variant-numeric: tabular-nums;
