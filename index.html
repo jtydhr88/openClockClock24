@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>openClockClock24</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23eee'/%3E%3Cpath d='M16 16V4M16 16h11' stroke='%23111' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E" />
+  </head>
+  <body>
+    <main>
+      <h1>openClockClock24</h1>
+      <div class="stage">
+        <div id="board3d"></div>
+        <canvas id="board"></canvas>
+      </div>
+      <p id="status" class="status"></p>
+
+      <form class="controls" onsubmit="return false">
+        <label>外观
+          <select id="view">
+            <option value="skeu">拟物 3D</option>
+            <option value="flat">平面</option>
+          </select>
+        </label>
+        <label class="check"><input id="ao" type="checkbox" checked /> 环境光遮蔽</label>
+        <button id="reset-view" type="button">复位视角</button>
+        <label>模式
+          <select id="mode">
+            <option value="clock">时钟</option>
+            <option value="custom">自定义数字</option>
+            <option value="demo">随机演示</option>
+          </select>
+        </label>
+        <label>数字
+          <input id="text" value="1850" maxlength="4" inputmode="numeric" />
+        </label>
+        <label>动作
+          <select id="choreo">
+            <option value="random">随机</option>
+          </select>
+        </label>
+        <label>速度
+          <input id="speed" type="range" min="0.25" max="4" step="0.25" value="1" />
+          <output id="speed-out">1×</output>
+        </label>
+        <label class="check"><input id="hour12" type="checkbox" /> 12 小时制</label>
+        <button id="play" type="button">立即播放</button>
+      </form>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
